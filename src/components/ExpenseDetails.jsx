@@ -1,6 +1,37 @@
+import {
+LeadingActions,
+SwipeableList,
+SwipeableListItem,
+SwipeAction,
+TrailingActions,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
 import { categories } from "../data/categories"
+import { useContext } from 'react';
+import { BudgetDispatchContext } from '../context/BudgetContext';
+
+const dispatch = useContext(BudgetDispatchContext) // recuperando el dispatch del reducer desde el context
+
+// Define una accion que se mostrara cuando el usuario deslice hacia la izquierda.
+const leadingActions = () => (
+    <LeadingActions>
+        <SwipeAction onClick={() => { }}>{/* Accion de actualizacion (sin logica impelementada por ahora*/}
+            Actualizar
+        </SwipeAction>
+    </LeadingActions>
+);
+
+// Define una accion que se mostrara cuando el usuario deslice hacia la derecha.
+const trailingAction = () => (
+    <TrailingActions> {/*Contenedor de acciones a la derecha*/}
+        <SwipeAction destructive={true}
+                    onClick={() => dispatch({ type: 'remove-expense', payload: { id: expense.id } })}>
+            Eliminar
+        </SwipeAction>
+    </TrailingActions>
+);
+
 export const ExpenseDetails = ({ expense }) => {
-    // Convertir ambos a string para asegurar coincidencia
     const categoryInfo = categories.find(cat => String(cat.id) === String(expense.category));
     return (
         <div className="bg-white shadow-lg p-10 w-full border-b border-gray-200 flex gap-5 items-center">
@@ -24,3 +55,5 @@ export const ExpenseDetails = ({ expense }) => {
         </div>
     );
 }
+
+

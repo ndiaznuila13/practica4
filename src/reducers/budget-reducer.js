@@ -13,7 +13,19 @@ export const budgetReducer = (state, action) => {
         case "close-modal":
             return {...state, modal: false}
         case "add-expense":
-            return {...state, expenses: [...state.expenses, action.payload.expense], modal: false}
+            return {
+                ...state,
+                expenses: [
+                    ...state.expenses,
+                    {...action.payload.expense, id: new Date().getTime()}
+                ],
+                modal: false
+            }
+        case "remove-expense":
+            return {
+                ...state,
+                expenses: state.expenses.filter(expense => expense.id!=action.payload.id)
+            }
         default:
             return state
     }

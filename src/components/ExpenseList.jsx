@@ -1,7 +1,7 @@
 
 import { useContext } from "react"
 import { BudgetStateContext } from "../context/BudgetContext"
-import { ExpenseDetails } from "./ExpenseDatails";
+import { ExpenseDetails } from "./ExpenseDetails";
 
 export const ExpenseList = () => {
     const { expenses } = useContext(BudgetStateContext); // leyendo expense desde el contexto correcto
