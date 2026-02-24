@@ -49,6 +49,21 @@ export const ExpenseForm = () => {
             return
         }
 
+        // Calcular suma de gastos considerando si es edición o nuevo gasto
+        let totalExpenses;
+        if (state.editingId) {
+            totalExpenses = state.expenses.reduce((total, exp) =>
+                exp.id === state.editingId ? total + Number(expense.amount) : total + exp.amount
+            , 0);
+        } else {
+            totalExpenses = state.expenses.reduce((total, exp) => total + exp.amount, 0) + Number(expense.amount);
+        }
+
+        if (totalExpenses > state.budget) {
+            setError('La suma de los gastos excede el presupuesto disponible');
+            return;
+        }
+
         if (state.editingId) {
             dispatch({ type: 'update-expense', payload: { expense: {  id: state.editingId, ...expense } } })
         }
@@ -63,6 +78,7 @@ export const ExpenseForm = () => {
             category: "",
             date: new Date(),
         })
+        setError("");
     }
     const isEditing = Boolean(state.editingId);
     return (

@@ -56,6 +56,12 @@ export const budgetReducer = (state, action) => {
             }
         case "add-filter-category":
             return {...state, currentCategory: action.payload.categoryId}
+        case "reset-app":
+            localStorage.removeItem('budget');
+            localStorage.removeItem('expenses');
+            return {
+                ...initialState
+            }
         default:
             return state
     }

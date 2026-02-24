@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { BudgetStateContext } from "../context/BudgetContext";
+import { BudgetStateContext, BudgetDispatchContext } from "../context/BudgetContext";
 import { AmountDisplay } from "./AmountDisplay";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 
 export const BudgetTracker = () => {
     const state = useContext(BudgetStateContext)
+    const dispatch = useContext(BudgetDispatchContext)
     const totalExpenses = state.expenses.reduce((total, expense) => total + expense.amount, 0);
     const remainingBudget = state.budget - totalExpenses;
     const percentage = state.budget > 0 ? Math.round((totalExpenses / state.budget) * 100) : 0;
@@ -24,6 +25,7 @@ export const BudgetTracker = () => {
             <div className="flex flex-col justify-center items-center gap-8">
                 <button
                     className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
+                    onClick={() => dispatch({ type: 'reset-app' })}
                 >
                     Resetear app
                 </button>
