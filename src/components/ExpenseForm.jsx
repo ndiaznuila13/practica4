@@ -64,11 +64,11 @@ export const ExpenseForm = () => {
             date: new Date(),
         })
     }
+    const isEditing = Boolean(state.editingId);
     return (
         <form className=" space-y-5" onSubmit={handleSubmit}>
-            <legend className="uppercase text-center text-2xl font-black border-b-4
-border-blue-500 py-2">
-                Nuevo gasto
+            <legend className="uppercase text-center text-2xl font-black border-b-4 border-blue-500 py-2">
+                {isEditing ? 'Guardar cambios' : 'Nuevo gasto'}
             </legend>
             {error && <ErrorMessage>{error}</ErrorMessage>}
             <div className="flex flex-col gap-2">
@@ -132,9 +132,8 @@ border-blue-500 py-2">
             </div>
             <input
                 type="submit"
-                className=" bg-blue-600 cursor-pointer w-full p-2 text-white uppercase
-font-bold rounded-lg"
-                value="Registrar gasto"
+                className=" bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
+                value={isEditing ? 'Guardar cambios' : 'Registrar gasto'}
             />
         </form>
     )

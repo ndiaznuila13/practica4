@@ -1,23 +1,36 @@
-import { AmountDisplay } from "./AmountDisplay.jsx"
+import { useContext } from "react";
+import { BudgetStateContext } from "../context/BudgetContext";
+import { AmountDisplay } from "./AmountDisplay";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import 'react-circular-progressbar/dist/styles.css';
 
 export const BudgetTracker = () => {
+    const state = useContext(BudgetStateContext)
+    const totalExpenses = state.expenses.reduce((total, expense) => total + expense.amount, 0);
+    const remainingBudget = state.budget - totalExpenses;
+    const percentage = state.budget > 0 ? Math.round((totalExpenses / state.budget) * 100) : 0;
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className=" flex justify-center">
-                <img src="/grafico.jpg" alt="" />
+            <div className="flex justify-center">
+                <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                    styles={buildStyles({
+                        pathColor: percentage < 100 ? '#3b82f6' : '#dc2626',
+                        trailColor: '#f5f5f5'
+                    })}
+                />
             </div>
             <div className="flex flex-col justify-center items-center gap-8">
                 <button
-                 className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
-                 >
+                    className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
+                >
                     Resetear app
                 </button>
-
-                <AmountDisplay amount={300} label="Presupuesto"/>
-                <AmountDisplay amount={200} label="Disponible"/>
-                <AmountDisplay amount={100} label="Gastado"/>
+                <AmountDisplay amount={state.budget} label="Presupuesto" />
+                <AmountDisplay amount={remainingBudget} label="Disponible" />
+                <AmountDisplay amount={totalExpenses} label="Gastado" />
             </div>
-
         </div>
-    )
+    );
 }
