@@ -1,7 +1,9 @@
 import { BudgetForm } from "./components/BudgetForm.jsx"
+import ExpenseModal from "./components/ExpenseModal.jsx"
 import { useContext } from "react"
 import { BudgetStateContext } from "./context/BudgetContext.jsx"
 import { BudgetTracker } from "./components/BudgetTracker.jsx"
+import { ExpenseList } from "./components/ExpenseList.jsx"
 
 
 
@@ -16,8 +18,14 @@ function App() {
                 </h1>
             </header>
             <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
-            {isValidBudget? <BudgetTracker/> : <BudgetForm/>}
+            {isValidBudget ? <BudgetTracker /> : <BudgetForm />}
             </div>
+            {isValidBudget && (
+                <main className="max-w-3xl mx-auto py-10">
+                    <ExpenseList/>
+                    <ExpenseModal />
+                </main>
+            )}
         </>
     )
 }
